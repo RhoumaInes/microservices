@@ -1,0 +1,40 @@
+version: "3.3"
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - commonnetwork
+      
+  eurekaserver:
+    image: inesrhouma/eurekaserver
+    ports:
+      - 8761:8761
+    networks:
+      - commonnetwork
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    depends_on:
+      - mongo
+      - eurekaserver
+    image: inesrhouma/gestpublications:latest
+    restart: on-failure
+    ports:
+      - 8083:8083
+    networks:
+      - commonnetwork
+      
+networks:
+  commonnetwork:
+    driver: bridge
+
+volumes:
+  mongo-data:
+  

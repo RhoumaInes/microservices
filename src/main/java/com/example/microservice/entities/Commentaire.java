@@ -13,20 +13,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-@Document(collection = "publication")
+@Document(collection = "commentaire")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Publication {
-	
+public class Commentaire {
 	@Id
 	private String id;	
-	private String description;
-	private Date datepub;
+	private String texte;
+	private Date dateComm;
 	
+	@DBRef
+	private Publication publication;
 	
-	private List<Commentaire> comments;
-
 }
